@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 class Page extends Component {
     render() {
+        const { avatar } = this.props;
+
         return (
             <div className="container">
                 <div className="col-2of5 bg-white profile">
@@ -11,7 +13,7 @@ class Page extends Component {
                     <div className="tweet">
                         <form id="tweet-form">
                             <div className="row">
-                                <img className="avatar-sm v-top" src={this.props.avatar} alt="avatar" />
+                                <img className="avatar-sm v-top" src={avatar} alt="avatar" />
                                 <textarea className="input-tweet" placeholder="What's up?" id="tweet-content"></textarea>
                             </div>
                             <div className="row tweet-actions">
