@@ -4,11 +4,8 @@ import axios from 'axios';
 import TweetList from './TweetList'
 
 class Page extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            tweets: []
-        };
+    state = {
+        tweets: []
     }
 
     componentDidMount() {
