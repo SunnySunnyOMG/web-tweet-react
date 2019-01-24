@@ -12,13 +12,14 @@ class LoginForm extends Component {
     }
 
     formUpdate = updateValue => {
-        this.setState(prevState => ({
-            formContent: {
-              ...prevState,
-              ...updateValue,
-              validForm: formContent.username && formContent.password
+        this.setState(prevState => {
+            let formContent = {
+                ...prevState,
+                ...updateValue
             }
-        }))
+            formContent.validForm = formContent.username && formContent.password
+            return formContent
+        })
     }
 
     handleUsernameChange = e => {
