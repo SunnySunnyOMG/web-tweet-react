@@ -152,6 +152,7 @@ button:hover {
 }
 
 .profile {
+    width: 100%;
     padding: 32px 48px;
     display: flex;
     flex-direction: column;
@@ -238,6 +239,7 @@ textarea.input-profile {
     cursor: pointer;
     transition: color .3s ease, background-color .3s ease;
     min-width: 150px;
+    font-weight: bold;
 }
 
 .btn-border:hover {
@@ -276,6 +278,7 @@ textarea.input-profile {
 .avatar-upload {
     position: absolute;
     top: 0;
+    left: 0;
     border-radius: 50%;
     width: 100%;
     opacity: 0;

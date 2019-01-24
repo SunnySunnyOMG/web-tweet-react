@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 // load components
 import Nav from './component/Nav';
@@ -11,10 +12,12 @@ import avatar from './img/sample-avatar.png';
 class App extends Component {
   render() {
     return (
-      <div>
-        <Nav logo={logo} avatar={avatar}/>
-        <Page avatar={avatar}/>
-      </div>
+      <Router>
+        <div>
+          <Nav logo={logo} avatar={avatar} />
+          <Page avatar={avatar} />
+        </div>
+      </Router>
     );
   }
 }
