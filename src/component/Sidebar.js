@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import React, { Component, Fragment } from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import SignupForm from './auth/SignupForm'
 import LoginForm from './auth/LoginForm'
@@ -8,24 +8,28 @@ import ProfileForm from './profile/ProfileForm';
 
 class SideBar extends Component {
 
-    handleAuth(Component) {
-        return this.props.token ? Component : <Redirect to="/signup" />
-    }
-
-    handleIsAuth(Component) {
-        return this.props.token ? <Redirect to="/" /> : Component
-    }
-
     render() {
+        const { avatar, token } = this.props
         return (
-            <div>
-                <Route path='(/|/profile)' exact render={() => (this.handleAuth(<Profile avatar={this.props.avatar} handleLogout={this.props.handleLogout} />))} />
-                <Route path='/profile/edit' render={() => (this.handleAuth(<ProfileForm avatar={this.props.avatar} />))} />
-                <Route path='/login' render={() => (this.handleIsAuth(<LoginForm handleTokenUpdate={this.props.handleTokenUpdate} />))} />
-                <Route path='/signup' render={() => (this.handleIsAuth(<SignupForm handleTokenUpdate={this.props.handleTokenUpdate} />))} />
-            </div>
+            <Switch>
+              {
+                token ?
+                    // the pages to show when user get acess token
+                    <Fragment>
+                        <Route path='/profile/edit' render={() => <ProfileForm avatar={avatar} />} />
+                        <Route path='/' render={() => <Profile avatar={avatar} />} />
+                        <Redirect to="/" />
+                    </Fragment> :
+                    // the pages to show when user don't have the token
+                    <Fragment>
+                        <Route path='/login' component={LoginForm} />
+                        <Route path='/signup' render={() => <SignupForm handleTokenUpdate={this.props.handleTokenUpdate} />} />
+                        <Redirect to="/signup" />
+                    </Fragment>
+              }
+            </Switch>
         );
     }
 }
 
-export default SideBar;
+export default SideBar

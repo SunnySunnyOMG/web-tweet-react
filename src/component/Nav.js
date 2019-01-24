@@ -11,7 +11,7 @@ class Nav extends Component {
                         <li><Link to="/">Home</Link></li>
                     </ul>
                     <div>
-                        {this.props.token ? <Link to="/profile"><img className="avatar-sm" src={this.props.avatar} alt="avatar" /></Link> : ''}
+                        {this.props.token && <Link to="/profile"><img className="avatar-sm" src={this.props.avatar} alt="avatar" /></Link>}
                         {/* Remember to close image tag */}
                     </div>
                 </div>
