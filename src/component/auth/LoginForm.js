@@ -7,27 +7,15 @@ class LoginForm extends Component {
 
     state = {
         username: '',
-        password: '',
-        validForm: false
-    }
-
-    formUpdate = updateValue => {
-        this.setState(prevState => {
-            let formContent = {
-                ...prevState,
-                ...updateValue
-            }
-            formContent.validForm = formContent.username && formContent.password
-            return formContent
-        })
+        password: ''
     }
 
     handleUsernameChange = e => {
-        this.formUpdate({username: e.target.value})
+        this.setState({username: e.target.value})
     }
 
     handlePasswordChange = e => {
-        this.formUpdate({password: e.target.value})
+        this.setState({password: e.target.value})
     }
 
     handleLogin = () => {
@@ -38,13 +26,16 @@ class LoginForm extends Component {
     }
 
     render() {
+        const { username, password } = this.state;
+        // is the form valid now?
+        const isFormValid =  username && password;
         return (
             <div className="profile user-auth">            
                 <h3>Log in to Web Tweet</h3>
                 <form id="login-form">
                     <input className="input-auth" type="text" placeholder="Username" onChange={this.handleUsernameChange} />
                     <input className="input-auth" type="password" placeholder="Password" onChange={this.handlePasswordChange} />
-                    <button className="btn-primary" type="button" onClick={this.handleLogin} disabled={this.state.validForm ? '' : 'disabled'}>Log in</button>
+                    <button className="btn-primary" type="button" onClick={this.handleLogin} disabled={isFormValid ? '' : 'disabled'}>Log in</button>
                 </form>
                 <h6>New to Web Tweet? <Link to="/signup">Sign up Now</Link></h6>
             </div>
