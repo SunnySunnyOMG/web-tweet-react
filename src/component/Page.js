@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import TweetList from './TweetList'
 import TweetPost from './TweetPost';
-import SideBar from './SideBar';
+import SideBar from './Sidebar';
 
 class Page extends Component {
 
@@ -44,7 +44,7 @@ class Page extends Component {
         return (
             <div className="container">
                 <div className="col-2of5 bg-white">
-                  <SideBar />
+                  <SideBar avatar={avatar}/>
                 </div>
                 
                 <div className="col-3of5 bg-white">

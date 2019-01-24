@@ -7,10 +7,6 @@ import ProfileForm from './profile/ProfileForm';
 
 class SideBar extends Component {
 
-    static defaultProps = {
-        avatar: 'https://ucarecdn.com/8c34b406-c767-4858-91e2-cb1e45ad231f/'
-    }
-
     render() {
         const { avatar } = this.props
         return (
