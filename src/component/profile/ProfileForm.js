@@ -37,16 +37,15 @@ class ProfileForm extends Component {
 
     saveProfile() {
         this.props.updateProfile({
-            token: this.props.token,
-            profile: {...this.props.profile, ...this.state},
-            history: this.props.history
+          ...this.props.profile, 
+          ...this.state
         })
     }
 
     render() {
         let props = this.props
         return (
-            <div className="col-2of5 bg-white profile">
+            <div className="profile">
                 <div className="relative img-edit">
                     <img className="avatar" src={this.state.avatarUrl} alt="avatar" id="avatar-image" />
                     <img className="avatar-upload" src="/img/upload.png" alt="upload-img" />

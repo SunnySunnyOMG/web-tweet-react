@@ -15,15 +15,21 @@ class Page extends Component {
     }
 
     render() {
-        const props = this.props
+        const {
+            profile,
+            token,
+        } = this.props
+
         return (
             <div>
-                <Nav profile={props.profile} token={props.token} />
+                <Nav profile={profile} token={token} />
                 <div className="container">
-                    <SideBar profile={props.profile} token={props.token} />
+                    <div className="col-2of5 bg-white">
+                        <SideBar profile={profile} token={token} />
+                    </div>
                     <div className="col-3of5 bg-white">
-                        {props.token && <TweetPost />}
-                        <TweetList />
+                        {token && <TweetPost />}
+                        <TweetList/>
                     </div>
                 </div>
             </div>

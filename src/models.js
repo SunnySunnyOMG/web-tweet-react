@@ -1,5 +1,6 @@
 import { baseUrl } from './config'
 import axios from 'axios'
+import history from './module/navigation'
 
 export const user = {
     state: {
@@ -16,15 +17,15 @@ export const user = {
         }
     },
     effects: {
-        async updateProfile(user) {
-            axios.put(baseUrl + '/profile/' + user.profile._id, user.profile, {
+        async updateProfile(profile, rootState) {
+            const response = await axios.put(baseUrl + '/profile/' + profile._id, profile, {
                 headers: {
-                    Authorization: 'Bearer ' + user.token
+                    Authorization: 'Bearer ' + rootState.user.token
                 }
-            }).then(res => {
-                this.update({ profile: res.data.profile })
-                user.history.push('/profile')
             })
+            this.update({ profile: response.data.profile })
+            history.push('/profile')
+
         }
     }
 }
@@ -45,29 +46,27 @@ export const tweets = {
     },
     effects: {
         async loadData() {
-            let res = await fetch(baseUrl + '/tweet')
-            let data = await res.json()
-            this.feed(data.tweets)
+            const res = await axios.get(baseUrl + '/tweet')
+            this.feed(res.data.tweets)
         },
-        async postData(newTweet) {
-
-            axios.post(baseUrl + '/tweet', { content: newTweet.content }, {
+        postData(newTweet, rootState) {
+            return axios.post(baseUrl + '/tweet', { content: newTweet }, {
                 headers: {
-                    Authorization: 'Bearer ' + newTweet.token
+                    Authorization: 'Bearer ' + rootState.user.token
                 }
             }).then(res => {
                 this.add(res.data.tweet)
-            })            
+            })
         },
-        async removeData(deleteTweet) {
+        async removeData(tweetID, rootState) {
 
-            axios.delete(baseUrl + '/tweet/' + deleteTweet._id,{
+            const res = await axios.delete(baseUrl + '/tweet/' + tweetID, {
                 headers: {
-                    Authorization: 'Bearer ' + deleteTweet.token
+                    Authorization: 'Bearer ' + rootState.user.token
                 }
-            }).then(res => {
-                res.data.success ? this.remove(deleteTweet._id) : console.log(res.data.error)
-            })        
+            })
+            res.data.success ? this.remove(tweetID) : console.log(res.data.error)
+
         }
     }
 }

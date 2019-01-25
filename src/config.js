@@ -1,1 +1,1 @@
-export const baseUrl = 'http://tweet-api.webdxd.com';
+export const baseUrl = 'https://tweet-api.webdxd.com';

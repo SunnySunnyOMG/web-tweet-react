@@ -7,67 +7,51 @@ import { connect } from 'react-redux'
 import { baseUrl } from '../../config'
 
 class SignupForm extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            username: '',
-            password: '',
-            repeatPassword: '',
-            validForm: false
-        }
-        this.handleUsernameChange = this.handleUsernameChange.bind(this)
-        this.handlePasswordChange = this.handlePasswordChange.bind(this)
-        this.handleRepeatPasswordChange = this.handleRepeatPasswordChange.bind(this)
-        this.handleSignup = this.handleSignup.bind(this)
-        this.formUpdate = this.formUpdate.bind(this)
+
+    state = {
+        username: '',
+        password: '',
+        repeatPassword: ''
     }
 
-    formUpdate(updateValue) {
-        let prevState = this.state
-        let formContent = {
-            ...prevState,
-            ...updateValue
-        }
-        formContent.validForm = formContent.username && formContent.password && formContent.password === formContent.repeatPassword
-        this.setState(formContent)
+    handleUsernameChange = e => {
+        this.setState({ username: e.target.value })
     }
 
-    handleUsernameChange(e) {
-        this.formUpdate({ username: e.target.value })
+    handlePasswordChange = e => {
+        this.setState({ password: e.target.value })
     }
 
-    handlePasswordChange(e) {
-        this.formUpdate({ password: e.target.value })
+    handleRepeatPasswordChange = e => {
+        this.setState({ repeatPassword: e.target.value })
     }
 
-    handleRepeatPasswordChange(e) {
-        this.formUpdate({ repeatPassword: e.target.value })
-    }
-
-    handleSignup() {
-        let that = this
+    handleSignup = () => {
         axios.post(baseUrl + '/auth/signup', this.state)
             .then(res => {
                 if (res.data.error) {
                     console.log(res.data.error)
                 } else {
-                    res.data.token && that.props.updateUser({ token: res.data.token, profile: res.data.profile })
+                    res.data.token && this.props.updateUser({ token: res.data.token, profile: res.data.profile })
                 }
             })
     }
 
     render() {
         return (
-            <div className="col-2of5 bg-white profile user-auth">
+            <div className="profile user-auth">
                 <h3>Log in to Web Tweet</h3>
                 <input className="input-auth" type="text" placeholder="Username" onChange={this.handleUsernameChange} />
                 <input className="input-auth" type="password" placeholder="Password" onChange={this.handlePasswordChange} />
                 <input className="input-auth" type="password" placeholder="Repeat password" onChange={this.handleRepeatPasswordChange} />
-                <button className="btn-primary" type="button" onClick={this.handleSignup} disabled={this.state.validForm ? '' : 'disabled'}>Sign up</button>
+                <button className="btn-primary" type="button" onClick={this.handleSignup} disabled={!this.validForm(this.state)}>Sign up</button>
                 <h6>Have an account? <Link to="/login">Log in</Link></h6>
             </div>
         );
     }
+
+    validForm = ({ username, password, repeatPassword }) => username && password && password === repeatPassword
+
 }
 
 const mapDispatch = dispatch => ({

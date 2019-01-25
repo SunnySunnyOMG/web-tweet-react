@@ -6,51 +6,39 @@ import { baseUrl } from '../../config'
 import { connect } from 'react-redux'
 
 class LoginForm extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            username: '',
-            password: '',
-            validForm: false
-        }
-        this.handleUsernameChange = this.handleUsernameChange.bind(this)
-        this.handlePasswordChange = this.handlePasswordChange.bind(this)
-        this.handleLogin = this.handleLogin.bind(this)
+
+    state = {
+        username: '',
+        password: ''
     }
 
-    formUpdate(updateValue) {
-        let prevState = this.state
-        let formContent = {
-            ...prevState,
-            ...updateValue
-        }
-        formContent.validForm = formContent.username && formContent.password
-        this.setState(formContent)
+    handleUsernameChange = e => {
+        this.setState({username: e.target.value})
     }
 
-    handleUsernameChange(e) {
-        this.formUpdate({ username: e.target.value })
+    handlePasswordChange = e => {
+        this.setState({password: e.target.value})
     }
 
-    handlePasswordChange(e) {
-        this.formUpdate({ password: e.target.value })
-    }
-
-    handleLogin() {
-        let that = this
+    handleLogin = () => {
         axios.post(baseUrl + '/auth/login', this.state)
             .then(res => {
-                res.data.token && that.props.updateUser({ token: res.data.token, profile: res.data.profile })
+                res.data.token && this.props.updateUser({ token: res.data.token, profile: res.data.profile })
             })
     }
 
     render() {
+        const { username, password } = this.state;
+        // is the form valid now?
+        const isFormValid =  username && password;
         return (
-            <div className="col-2of5 bg-white profile user-auth">
+            <div className="profile user-auth">            
                 <h3>Log in to Web Tweet</h3>
-                <input className="input-auth" type="text" placeholder="Username" onChange={this.handleUsernameChange} />
-                <input className="input-auth" type="password" placeholder="Password" onChange={this.handlePasswordChange} />
-                <button className="btn-primary" type="button" onClick={this.handleLogin} disabled={this.state.validForm ? '' : 'disabled'}>Log in</button>
+                <form id="login-form">
+                    <input className="input-auth" type="text" placeholder="Username" onChange={this.handleUsernameChange} />
+                    <input className="input-auth" type="password" placeholder="Password" onChange={this.handlePasswordChange} />
+                    <button className="btn-primary" type="button" onClick={this.handleLogin} disabled={isFormValid ? '' : 'disabled'}>Log in</button>
+                </form>
                 <h6>New to Web Tweet? <Link to="/signup">Sign up Now</Link></h6>
             </div>
         );
