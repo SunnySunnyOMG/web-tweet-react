@@ -9,7 +9,7 @@ class App extends Component {
     return (
       <Router>  
           <Page />
-        </Router>
+      </Router>
     );
   }
 }
