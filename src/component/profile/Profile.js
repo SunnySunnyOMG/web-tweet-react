@@ -1,19 +1,35 @@
-import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
-
-import ProfileAction from './ProfileAction'
+import React, { Component, Fragment } from 'react';
+import { Route, Link } from 'react-router-dom';
 
 class Profile extends Component {
 
     render() {
+        const {
+            profile: {
+                avatarUrl,
+                username,
+                name,
+                location,
+                bio
+            }
+        } = this.props;
+
         return (
-            <div className="col-2of5 bg-white profile">
-                <img className="avatar" src={this.props.profile.avatarUrl} alt={this.props.profile.username} />
-                <h3>{this.props.profile.name}</h3>
-                <h5>@{this.props.profile.username}</h5>
-                {this.props.profile.location && <h4><i className="fas fa-map-marker-alt"></i> {this.props.profile.location}</h4>}
-                <p className="center">{this.props.profile.bio}</p>
-                <Route path='/profile' render={() => <ProfileAction handleLogout={this.props.handleLogout} /> } /> 
+            <div className="profile">
+                <img className="avatar" src={avatarUrl} alt={username} />
+                <h3>{name}</h3>
+                <h5>@{username}</h5>
+                {location && <h4><i className="fas fa-map-marker-alt"></i> {location}</h4>}
+                <p className="center">{bio}</p>
+                <Route
+                    path='/profile'
+                    render={() =>
+                        <Fragment>
+                            <Link className="btn-border space-top" to="/profile/edit">Edit profile</Link>
+                            <Link className="btn-border space-top" to="/login">Log out</Link>
+                        </Fragment>
+                    }
+                />
             </div>
         );
     }
