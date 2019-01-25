@@ -1,5 +1,6 @@
 import { baseUrl } from './config'
 import axios from 'axios'
+import history from './module/navigation'
 
 export const user = {
     state: {
@@ -16,15 +17,15 @@ export const user = {
         }
     },
     effects: {
-        async updateProfile(user) {
-            axios.put(baseUrl + '/profile/' + user.profile._id, user.profile, {
+        async updateProfile(profile, rootState) {
+            const response = await axios.put(baseUrl + '/profile/' + profile._id, profile, {
                 headers: {
-                    Authorization: 'Bearer ' + user.token
+                    Authorization: 'Bearer ' + rootState.user.token
                 }
-            }).then(res => {
-                this.update({profile: res.data.profile})
-                user.history.push('/profile')
             })
+            this.update({ profile: response.data.profile })
+            history.push('/profile')
+
         }
     }
 }
@@ -45,9 +46,8 @@ export const tweets = {
     },
     effects: {
         async loadData() {
-              let res = await fetch(baseUrl + '/tweet')
-              let data = await res.json()
-              this.feed(data.tweets)
+            const response = await axios.get(baseUrl + '/tweet')
+            this.feed(response.data.tweets)
         }
     }
 }

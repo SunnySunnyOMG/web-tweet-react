@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { Router } from 'react-router-dom';
+import histroy from './module/navigation';
 
 import { init } from "@rematch/core";
 import { Provider } from "react-redux";
@@ -18,7 +19,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Router>
+        <Router history={histroy}>
           <Page />
         </Router>
       </Provider>

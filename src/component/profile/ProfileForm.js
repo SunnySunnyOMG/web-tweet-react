@@ -37,9 +37,8 @@ class ProfileForm extends Component {
 
     saveProfile() {
         this.props.updateProfile({
-            token: this.props.token,
-            profile: {...this.props.profile, ...this.state},
-            history: this.props.history
+          ...this.props.profile, 
+          ...this.state
         })
     }
 

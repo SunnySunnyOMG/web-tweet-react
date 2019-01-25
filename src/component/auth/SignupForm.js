@@ -32,7 +32,7 @@ class SignupForm extends Component {
                 if (res.data.error) {
                     console.log(res.data.error)
                 } else {
-                    res.data.token && that.props.updateUser({ token: res.data.token, profile: res.data.profile })
+                    res.data.token && this.props.updateUser({ token: res.data.token, profile: res.data.profile })
                 }
             })
     }
