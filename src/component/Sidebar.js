@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import SignupForm from './auth/SignupForm'
 import LoginForm from './auth/LoginForm'
@@ -8,33 +8,28 @@ import ProfileForm from './profile/ProfileForm';
 
 class SideBar extends Component {
 
-    handleAuth(Component) {
-        return this.props.token ? Component : <Redirect to="/signup" />
-    }
-
-    handleIsAuth(Component) {
-        if (this.props.token) {
-            if (this.props.profile.location && this.props.profile.bio) {
-                return <Redirect to="/" />
-            } else {
-                return <Redirect to="/profile/edit" />
-            }
-
-        } else {
-            return Component
-        }
-    }
-
     render() {
-        return (
-            <div>
-                <Route path='(/|/profile)' exact render={() => (this.handleAuth(<Profile profile={this.props.profile} handleLogout={this.props.handleLogout} />))} />
-                <Route path='/profile/edit' render={() => (this.handleAuth(<ProfileForm />))} />
-                <Route path='/login' render={() => (this.handleIsAuth(<LoginForm />))} />
-                <Route path='/signup' render={() => (this.handleIsAuth(<SignupForm />))} />
-            </div>
-        );
+        const { 
+            token, 
+            profile, 
+            handleLogout, 
+        } = this.props
+
+        return token ?
+            // the pages to show when user get access token
+            <Switch>
+                <Route path="/profile/edit" component={ProfileForm} />
+                <Route path="/" render={() => <Profile profile={profile} handleLogout={handleLogout}/>} />
+                <Redirect to={profile.location && profile.bio ? '/' : '/profile/edit'} />
+            </Switch> :
+            // the pages to show when user don't have the token
+            <Switch>
+                <Route path="/login" component={LoginForm} />
+                <Route path="/signup" component={SignupForm} />
+                <Redirect to="/signup" />
+            </Switch>
+
     }
 }
 
-export default SideBar;
+export default SideBar

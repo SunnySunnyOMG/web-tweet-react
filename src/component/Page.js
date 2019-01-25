@@ -15,15 +15,26 @@ class Page extends Component {
     }
 
     render() {
-        const props = this.props
+        const {
+            profile,
+            updateUser,
+            logout,
+            token,
+            tweets,
+            addTweet,
+            removeTweet
+        } = this.props
+
         return (
             <div>
-                <Nav profile={props.profile} token={props.token} />
+                <Nav profile={profile} token={token} />
                 <div className="container">
-                    <SideBar profile={props.profile} handleUserUpdate={props.updateUser} handleLogout={props.logout} token={props.token} />
+                    <div className="col-2of5 bg-white">
+                        <SideBar profile={profile} handleUserUpdate={updateUser} handleLogout={logout} token={token} />
+                    </div>
                     <div className="col-3of5 bg-white">
-                        {props.token && <TweetPost profile={props.profile} handleNewPost={props.addTweet} token={props.token} />}
-                        <TweetList tweets={props.tweets} token={props.token} profile={props.profile} handleDeletePost={props.removeTweet} />
+                        {token && <TweetPost profile={profile} handleNewPost={addTweet} token={token} />}
+                        <TweetList tweets={tweets} token={token} profile={profile} handleDeletePost={removeTweet} />
                     </div>
                 </div>
             </div>

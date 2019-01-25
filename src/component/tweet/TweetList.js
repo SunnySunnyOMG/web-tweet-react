@@ -1,23 +1,27 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 
 import TweetItem from './TweetItem'
 
-class TweetList extends Component {
-
+export default class TweetList extends Component {
     render() {
+        const {
+            tweets,
+            profile,
+            token,
+            handleDeletePost
+        } = this.props;
+        
         return (
-            <div>
-                <Route path='/profile' render={() => (this.props.tweets
+            <Switch>
+                <Route path='/profile/edit' render={() => <div className="fade-cover"></div>} />
+                <Route path='/profile' render={() => tweets
                     .sort((a, b) => a.createdAt < b.createdAt)
-                    .map(tweet =>  tweet.author._id === this.props.profile._id ? <TweetItem value={tweet} key={tweet._id} token={this.props.token} handleDeletePost={this.props.handleDeletePost} /> : ''))} />
-                <Route path='(/|/login|/signup)' exact render={() => (this.props.tweets
+                    .map(tweet => tweet.author._id === profile._id && <TweetItem value={tweet} key={tweet._id} token={token} handleDeletePost={handleDeletePost} />)} />
+                <Route path='/' render={() => tweets
                     .sort((a, b) => a.createdAt < b.createdAt)
-                    .map(tweet => <TweetItem value={tweet} key={tweet._id} />))} />
-                 <Route path='/profile/edit' render={() =>  <div className="fade-cover"></div>} />
-            </div>
+                    .map(tweet => <TweetItem value={tweet} key={tweet._id} />)} />
+            </Switch>
         );
     }
 }
-
-export default TweetList;
