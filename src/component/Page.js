@@ -2,46 +2,66 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 import TweetList from './TweetList'
+import TweetPost from './TweetPost'
 
 class Page extends Component {
-    state = {
-        tweets: []
+  state = {
+    tweets: []
+  }
+
+  handleNewPost = (content) => {
+    console.log('父组件page知道post被点击了', content)
+    // 1. content上传服务器
+    // 2. 成功 =》 then( setstate )
+    const newTweet = {
+      createdAt: '2018-06-10T15:37:29.033Z',
+      author: {
+        avatarUrl: 'https://avatars1.githubusercontent.com/u/23184068?s=400&v=4',
+        username: 'SunnySunnyOMG',
+        name: 'Zhe Xu',
+      },
+      content: content,
+      _id: Math.random().toString(36).substr(2, 9)
     }
 
-    componentDidMount() {
-        axios.get(`http://tweet-api.webdxd.com/tweet`)
-            .then(res => {
-                const tweets = res.data.tweets
-                this.setState({ tweets });
-            })
-    }
+    this.setState(preState => ({
+      tweets: [newTweet, ...preState.tweets]
+    }))
+  }
+
+  componentDidMount() {
+    axios.get(`https://tweet-api.webdxd.com/tweet`)
+      .then(res => {
+        const tweets = res.data.tweets
+        this.setState({ tweets });
+      })
+  }
 
 
-    render() {
-        return (
-            <div className="container">
-                <div className="col-2of5 bg-white profile">
-                    <div className="profile-content"></div>
-                </div>
-                <div className="col-3of5 bg-white">
-                    <div className="tweet">
-                        <form id="tweet-form">
-                            <div className="row">
-                                <img className="avatar-sm v-top" src={this.props.avatar} alt="avatar" />
-                                <textarea className="input-tweet" placeholder="What's up?" id="tweet-content"></textarea>
-                            </div>
-                            <div className="row tweet-actions">
-                                {/* <input type="hidden" role="uploadcare-uploader" name="content" id="tweet-image" data-public-key="7d92f12ba9b3c1d2afd1" data-images-only /> */}
-                                <button className="btn-clear" type="button"><i className="far fa-image" id="tweet-image-btn"></i></button>
-                                <button className="btn-primary" type="button" id="post-btn" disabled>Post</button>
-                            </div>
-                        </form>
-                    </div>
-                    <TweetList tweets={this.state.tweets} />
-                </div>
-            </div>
-        );
-    }
+  render() {
+    const {
+      avatar
+    } = this.props;
+
+    return (
+      <div className="container">
+
+        <div className="col-2of5 bg-white profile">
+          <div className="profile-content"></div>
+        </div>
+
+        <div className="col-3of5 bg-white">
+          <TweetPost avatar={avatar} handleNewPost={this.handleNewPost} />
+          <TweetList tweets={this.state.tweets} />
+        </div>
+
+      </div>
+    );
+  }
 }
 
 export default Page;
+
+
+
+
