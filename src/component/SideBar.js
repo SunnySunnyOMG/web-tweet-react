@@ -19,7 +19,7 @@ class SideBar extends Component {
         return token ?
             // the pages to show when user get access token
             <Switch>
-                <Route path="/profile/edit" render={() => <ProfileForm handleUserUpdate={handleUserUpdate} profile={profile} token={token}/>} />
+                <Route path="/profile/edit" render={(props) => <ProfileForm handleUserUpdate={handleUserUpdate} profile={profile} token={token} {...props}/>} />
                 <Route path="/" render={() => <Profile profile={profile} handleLogout={handleLogout}/>} />
                 <Redirect to={profile.location && profile.bio ? '/' : '/profile/edit'} />
             </Switch> :

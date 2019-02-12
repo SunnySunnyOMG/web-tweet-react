@@ -34,7 +34,8 @@ class ProfileForm extends Component {
 
 	saveProfile = () => {
 		const { avatarUrl, location, bio, name } = this.state
-		axios.put(baseUrl + '/profile/' + this.props.profile._id, {
+
+		axios.put(baseUrl + '/profile/', {
 			avatarUrl,
 			location,
 			bio,
