@@ -1,64 +1,67 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { baseUrl } from '../config'
 
-import TweetList from './TweetList'
-import TweetPost from './TweetPost'
-import SideBar from './SideBar';
+import Nav from './Nav';
+import TweetList from './tweet/TweetList'
+import TweetPost from './tweet/TweetPost';
+import SideBar from './Sidebar';
 
 class Page extends Component {
-  state = {
-    tweets: []
-  }
 
-  handleNewPost = (content) => {
-    console.log('父组件page知道post被点击了', content)
-    // 1. content上传服务器
-    // 2. 成功 =》 then( setstate )
-    const newTweet = {
-      createdAt: '2018-06-10T15:37:29.033Z',
-      author: {
-        avatarUrl: 'https://avatars1.githubusercontent.com/u/23184068?s=400&v=4',
-        username: 'SunnySunnyOMG',
-        name: 'Zhe Xu',
-      },
-      content: content,
-      _id: Math.random().toString(36).substr(2, 9)
+    state = {
+        tweets: [],
+        token: '',
+        profile: {}
     }
 
-    this.setState(preState => ({
-      tweets: [newTweet, ...preState.tweets]
+    handleUserUpdate = user => {
+        this.setState({
+            ...user
+        })
+    }
+
+    handleLogout = () => {
+        this.setState({
+            token: ''
+        })
+    }
+
+    handleNewPost = newPost => this.setState(preState => ({
+        tweets: [newPost, ...preState.tweets]
     }))
-  }
-
-  componentDidMount() {
-    axios.get(`https://tweet-api.webdxd.com/tweet`)
-      .then(res => {
-        const tweets = res.data.tweets
-        this.setState({ tweets });
-      })
-  }
 
 
-  render() {
-    const {
-      avatar
-    } = this.props;
+    handleDeletePost = (tweetId) => {
+        this.setState(preState => ({
+            tweets: preState.tweets.filter(tweet => tweet._id !== tweetId )
+        }))
+    }
 
-    return (
-      <div className="container">
+    componentDidMount() {
+        axios.get(baseUrl + '/tweet')
+            .then(res => {
+                const tweets = res.data.tweets
+                this.setState({ tweets });
+            })
+    }
 
-        <div className="col-2of5 bg-white">
-          <SideBar avatar={avatar}/>
-        </div>
-
-        <div className="col-3of5 bg-white">
-          <TweetPost avatar={avatar} handleNewPost={this.handleNewPost} />
-          <TweetList tweets={this.state.tweets} />
-        </div>
-
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div>
+                <Nav profile={this.state.profile} token={this.state.token} />
+                <div className="container">
+                    <div className="col-2of5 bg-white">
+                        <SideBar profile={this.state.profile} handleUserUpdate={this.handleUserUpdate} handleLogout={this.handleLogout} token={this.state.token} />
+                    </div>
+                    <div className="col-3of5 bg-white">
+                        {this.state.token && <TweetPost profile={this.state.profile} handleNewPost={this.handleNewPost} token={this.state.token}/>}
+                        <TweetList tweets={this.state.tweets} token={this.state.token} profile={this.state.profile} handleDeletePost={this.handleDeletePost}/>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 }
 
 export default Page;

@@ -4,13 +4,23 @@ import { Route, Link } from 'react-router-dom';
 class Profile extends Component {
 
     render() {
+        const {
+            profile: {
+                avatarUrl,
+                username,
+                name,
+                location,
+                bio
+            }
+        } = this.props;
+
         return (
             <div className="profile">
-                <img className="avatar" src={this.props.avatar} alt="avatar" />
-                <h3>Yan Hong</h3>
-                <h5>@honlyan</h5>
-                <h4><i className="fas fa-map-marker-alt"></i> Vancouver</h4>
-                <p className="center">Director of EduHacks * Digital Ocean Vancouver Meetup Co-organizer * CEO of HackHub * Founder of Inverse Technology Inc.</p>
+                <img className="avatar" src={avatarUrl} alt={username} />
+                <h3>{name}</h3>
+                <h5>@{username}</h5>
+                {location && <h4><i className="fas fa-map-marker-alt"></i> {location}</h4>}
+                <p className="center">{bio}</p>
                 <Route
                     path='/profile'
                     render={() =>
