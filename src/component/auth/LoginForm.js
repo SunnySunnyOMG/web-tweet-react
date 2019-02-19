@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import axios from 'axios';
-import { baseUrl } from '../../config'
 
 import { connect } from 'react-redux'
 

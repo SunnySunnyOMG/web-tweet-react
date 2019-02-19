@@ -1,22 +1,15 @@
 import React, { Component } from 'react';
-import axios from 'axios'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom';
 
-import { baseUrl } from '../../config'
 
 class TweetPost extends Component {
 
     state = { content: '' }
 
     handlePost = () => {
-        axios.post(baseUrl + '/tweet', { content: this.state.content }, {
-            headers: {
-                Authorization: 'Bearer ' + this.props.token
-            }
-        }).then(res => {
-            this.props.handleNewPost(res.data.tweet)
-            this.setState({
-                content: ''
-            })
+        this.props.postData(this.state.content).then(() => {
+            this.setState({ content: '' })
         })
     }
 
@@ -24,10 +17,10 @@ class TweetPost extends Component {
 
     render() {
         const {
-          profile:{
-            avatarUrl,
-            username
-          }
+            profile: {
+                avatarUrl,
+                username
+            }
         } = this.props;
 
         return (
@@ -46,4 +39,12 @@ class TweetPost extends Component {
     }
 }
 
-export default TweetPost;
+const mapState = state => ({
+    profile: state.user.profile
+})
+
+const mapDispatch = dispatch => ({
+    postData: newTweet => dispatch.tweets.postData(newTweet),
+})
+
+export default withRouter(connect(mapState, mapDispatch)(TweetPost));

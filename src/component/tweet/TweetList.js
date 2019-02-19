@@ -1,30 +1,40 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, withRouter, Switch } from 'react-router-dom';
+import { connect } from 'react-redux'
 
 import TweetItem from './TweetItem'
 
-export default class TweetList extends Component {
+class TweetList extends Component {
+  
     compareFn = (a, b) => new Date(b.createdAt) - new Date(a.createdAt) 
-
+    
     render() {
         const {
             tweets,
-            profile,
-            token,
-            handleDeletePost
+            profile
         } = this.props;
         
         return (
             <Switch>
                 <Route path='/profile/edit' render={() => <div className="fade-cover"></div>} />
                 <Route path='/profile' render={() => tweets
-                    .sort(this.compareFn)
-                    .map(tweet => tweet.author._id === profile._id && <TweetItem value={tweet} key={tweet._id} token={token} handleDeletePost={handleDeletePost} />)} />
+                    .sort((a, b) => a.createdAt < b.createdAt)
+                    .map(tweet => tweet.author._id === profile._id && <TweetItem value={tweet} key={tweet._id} />)} />
                 <Route path='/' render={() => tweets
-                    .sort(this.compareFn)
+                    .sort((a, b) => a.createdAt < b.createdAt)
                     .map(tweet => <TweetItem value={tweet} key={tweet._id} />)} />
-
             </Switch>
         );
     }
 }
+
+const mapState = state => ({
+    profile: state.user.profile,
+    tweets: state.tweets
+})
+
+const mapDispatch = dispatch => ({
+    postData: () => dispatch.tweets.postData(),
+})
+
+export default withRouter(connect(mapState, mapDispatch)(TweetList));

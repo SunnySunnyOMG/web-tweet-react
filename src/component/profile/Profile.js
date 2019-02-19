@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { Route, Link, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { Route , withRouter, Link } from 'react-router-dom';
+import { connect } from 'react-redux'
 
 class Profile extends Component {
 
@@ -37,12 +37,13 @@ class Profile extends Component {
     }
 }
 
-const mapDispatch = dispatch => ({
-  logout: () => dispatch.user.logout()
+const mapState = state => ({
+    profile: state.user.profile,
+    token: state.user.token
 })
 
+const mapDispatch = dispatch => ({
+    logout: () => dispatch.user.logout(),
+})
 
-export default withRouter(connect(null, mapDispatch)(Profile));
-
-
-
+export default withRouter(connect(mapState, mapDispatch)(Profile));

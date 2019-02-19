@@ -16,9 +16,7 @@ function TweetItem(props) {
             },
             createdAt,
             content
-        },
-        token,
-        handleDeletePost
+        }
     } = props;
 
     return (
@@ -28,7 +26,7 @@ function TweetItem(props) {
                 <h4><b>{name}</b></h4>
                 <h5>@{username}</h5>
                 <h5>{moment(createdAt).calendar()}</h5>
-                <Route path="/profile" render={()=><TweetDelete id={_id} token={token} handleDeletePost={handleDeletePost} />}/>
+                <Route path="/profile" render={()=><TweetDelete id={_id} />}/>
             </div>
             <p>{content}</p>
         </div>
