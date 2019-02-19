@@ -5,7 +5,7 @@ import { baseUrl } from '../config'
 import Nav from './Nav';
 import TweetList from './tweet/TweetList'
 import TweetPost from './tweet/TweetPost';
-import SideBar from './Sidebar';
+import Sidebar from './Sidebar';
 
 class Page extends Component {
 
@@ -52,7 +52,7 @@ class Page extends Component {
                 <Nav profile={this.state.profile} token={this.state.token} />
                 <div className="container">
                     <div className="col-2of5 bg-white">
-                        <SideBar profile={this.state.profile} handleUserUpdate={this.handleUserUpdate} handleLogout={this.handleLogout} token={this.state.token} />
+                        <Sidebar profile={this.state.profile} handleUserUpdate={this.handleUserUpdate} handleLogout={this.handleLogout} token={this.state.token} />
                     </div>
                     <div className="col-3of5 bg-white">
                         {this.state.token && <TweetPost profile={this.state.profile} handleNewPost={this.handleNewPost} token={this.state.token}/>}
