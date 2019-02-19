@@ -16,7 +16,7 @@ export default class TweetList extends Component {
         
         return (
             <Switch>
-                <Route path='/profile/edit' render={() => <div class="fade-cover"></div>} />
+                <Route path='/profile/edit' render={() => <div className="fade-cover"></div>} />
                 <Route path='/profile' render={() => tweets
                     .sort(this.compareFn)
                     .map(tweet => tweet.author._id === profile._id && <TweetItem value={tweet} key={tweet._id} token={token} handleDeletePost={handleDeletePost} />)} />

@@ -49,10 +49,10 @@ class Page extends Component {
     render() {
         return (
             <div>
-                <Nav profile={this.state.profile} token={this.state.token} />
+                <Nav />
                 <div className="container">
                     <div className="col-2of5 bg-white">
-                        <Sidebar profile={this.state.profile} handleUserUpdate={this.handleUserUpdate} handleLogout={this.handleLogout} token={this.state.token} />
+                        <Sidebar  handleUserUpdate={this.handleUserUpdate} handleLogout={this.handleLogout}  />
                     </div>
                     <div className="col-3of5 bg-white">
                         {this.state.token && <TweetPost profile={this.state.profile} handleNewPost={this.handleNewPost} token={this.state.token}/>}

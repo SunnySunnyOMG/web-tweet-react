@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import axios from 'axios';
 import { baseUrl } from '../../config'
 
+import { connect } from 'react-redux'
+
 class LoginForm extends Component {
 
     state = {
@@ -18,11 +20,9 @@ class LoginForm extends Component {
         this.setState({password: e.target.value})
     }
 
+  
     handleLogin = () => {
-        axios.post(baseUrl + '/auth/login', this.state)
-            .then(res => {
-                res.data.token && this.props.handleUserUpdate({ token: res.data.token, profile: res.data.profile })
-            })
+      this.props.handleLogin(this.state)
     }
 
     render() {
@@ -42,5 +42,9 @@ class LoginForm extends Component {
         );
     }
 }
+const mapDispath = dispatch => ({
+  //handleUserUpdate: user => dispatch.user.update(user)
+  handleLogin: (userInfo) => dispatch.user.login(userInfo)
+})
 
-export default LoginForm;
+export default connect(null, mapDispath)(LoginForm);
