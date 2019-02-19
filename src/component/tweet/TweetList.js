@@ -4,8 +4,8 @@ import { Route, Switch } from 'react-router-dom';
 import TweetItem from './TweetItem'
 
 export default class TweetList extends Component {
-    compareFn = (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-    
+    compareFn = (a, b) => new Date(b.createdAt) - new Date(a.createdAt) 
+
     render() {
         const {
             tweets,

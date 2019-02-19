@@ -7,7 +7,7 @@ class TweetPost extends Component {
 
     state = { content: '' }
 
-    handlePost() {
+    handlePost = () => {
         axios.post(baseUrl + '/tweet', { content: this.state.content }, {
             headers: {
                 Authorization: 'Bearer ' + this.props.token
