@@ -29,7 +29,6 @@ export const user = {
             })
             this.update({ profile: response.data.profile })
             history.push('/profile')
-
         }
     }
 }
@@ -53,8 +52,8 @@ export const tweets = {
             const res = await axios.get(baseUrl + '/tweet')
             this.feed(res.data.tweets)
         },
-        postData(newTweet, rootState) {
-            return axios.post(baseUrl + '/tweet', { content: newTweet }, {
+        postData({content, imageUrl}, rootState) {
+            return axios.post(baseUrl + '/tweet', { content, imageUrl }, {
                 headers: {
                     Authorization: 'Bearer ' + rootState.user.token
                 }

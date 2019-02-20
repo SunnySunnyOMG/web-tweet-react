@@ -18,10 +18,10 @@ class TweetList extends Component {
             <Switch>
                 <Route path='/profile/edit' render={() => <div className="fade-cover"></div>} />
                 <Route path='/profile' render={() => tweets
-                    .sort((a, b) => a.createdAt < b.createdAt)
+                    .sort(this.compareFn)
                     .map(tweet => tweet.author._id === profile._id && <TweetItem value={tweet} key={tweet._id} />)} />
                 <Route path='/' render={() => tweets
-                    .sort((a, b) => a.createdAt < b.createdAt)
+                    .sort(this.compareFn)
                     .map(tweet => <TweetItem value={tweet} key={tweet._id} />)} />
             </Switch>
         );

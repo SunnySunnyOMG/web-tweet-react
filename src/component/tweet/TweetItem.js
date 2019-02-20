@@ -15,7 +15,8 @@ function TweetItem(props) {
                 username
             },
             createdAt,
-            content
+            content,
+            imageUrl
         }
     } = props;
 
@@ -28,7 +29,10 @@ function TweetItem(props) {
                 <h5>{moment(createdAt).calendar()}</h5>
                 <Route path="/profile" render={()=><TweetDelete id={_id} />}/>
             </div>
-            <p>{content}</p>
+            <p>
+              {content}
+              {imageUrl && <img src={imageUrl} alt="tweet image"/>}
+            </p>
         </div>
     );
 }
