@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
+import logo from '../img/logo.png'
 import { connect } from 'react-redux';
 
 class Nav extends Component {
@@ -17,7 +17,7 @@ class Nav extends Component {
             <nav className="nav-bar">
                 <div className="container nav-container">
                     <ul>
-                        <li><Link to="/"><img className="logo" src='/img/logo.png' alt="webdxd" /></Link></li>
+                        <li><Link to="/"><img className="logo" src={logo} alt="webdxd" /></Link></li>
                         <li><Link to="/">Home</Link></li>
                     </ul>
                     <div>
