@@ -131,9 +131,11 @@ button:hover {
 }
 
 .tweet p img {
+    max-height: 500px;
     width: 100%;
     border-radius: 10px;
     margin-top: 1rem;
+    object-fit: contain;
 }
 
 .tweet p {
