@@ -115,9 +115,11 @@ button:hover {
 
 .avatar {
     border-radius: 50%;
-    width: 9rem;
-    height: auto;
+    width: 9em;
+    height: 9em;
     max-width: 300px;
+    max-height: 300px; 
+    object-fit: contain;
 }
 
 .tweet {
@@ -146,7 +148,8 @@ button:hover {
 .avatar-sm, .tweet-avatar {
     border-radius: 50%;
     width: 2rem;
-    height: auto;
+    height: 2rem;
+    object-fit: contain;
 }
 
 .logo {
